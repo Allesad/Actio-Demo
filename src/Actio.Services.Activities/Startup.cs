@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Actio.Common.Commands;
 using Actio.Common.Mongo;
 using Actio.Common.RabbitMq;
+using Actio.Services.Activities.Domain.Repositories;
 using Actio.Services.Activities.Handlers;
+using Actio.Services.Activities.Repositories;
+using Actio.Services.Activities.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +37,9 @@ namespace Actio.Services.Activities
             services.AddRabbitMq(Configuration);
 
             services.AddSingleton<ICommandHandler<CreateActivity>, CreateActivityHandler>();
+            services.AddSingleton<IActivityRepository, ActivityRepository>();
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
+            services.AddSingleton<IDatabaseSeeder, CustomMongoSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +53,8 @@ namespace Actio.Services.Activities
             {
                 app.UseHsts();
             }
+
+            app.ApplicationServices.GetService<IDatabaseInitializer>().InitializeAsync();
 
             app.UseHttpsRedirection();
             app.UseMvc();
