@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Actio.Common.Commands;
+using Actio.Common.Mongo;
 using Actio.Common.RabbitMq;
 using Actio.Services.Activities.Handlers;
 using Microsoft.AspNetCore.Builder;
@@ -29,7 +30,7 @@ namespace Actio.Services.Activities
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddMongoDb(Configuration);
             services.AddRabbitMq(Configuration);
 
             services.AddSingleton<ICommandHandler<CreateActivity>, CreateActivityHandler>();
