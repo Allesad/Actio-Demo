@@ -9,6 +9,7 @@ using Actio.Services.Identity.Domain.Repositories;
 using Actio.Services.Identity.Domain.Services;
 using Actio.Services.Identity.Handlers;
 using Actio.Services.Identity.Repositories;
+using Actio.Services.Identity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,6 +41,7 @@ namespace Actio.Services.Identity
             services.AddSingleton<ICommandHandler<CreateUser>, CreateUserHandler>();
             services.AddSingleton<IEncrypter, Encrypter>();
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

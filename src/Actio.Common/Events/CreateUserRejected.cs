@@ -10,11 +10,11 @@ namespace Actio.Common.Events
 
         protected CreateUserRejected() {}
 
-        public CreateUserRejected(string email, string reason, string code)
+        public CreateUserRejected(string email, string code, string reason)
         {
             Email = email;
-            Reason = reason;
             Code = code;
+            Reason = reason;
         }
     }
 }
