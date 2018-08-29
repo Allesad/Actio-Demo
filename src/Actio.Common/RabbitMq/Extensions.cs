@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using Actio.Common.Commands;
@@ -31,6 +32,8 @@ namespace Actio.Common.RabbitMq
             var options = new RabbitMqOptions();
             var section = configuration.GetSection("RabbitMq");
             section.Bind(options);
+
+            Console.WriteLine($"Setup RabbitMq on {options.Hostnames[0]}:{options.Port}");
 
             var client = RawRabbitFactory.CreateSingleton(new RawRabbitOptions()
             {

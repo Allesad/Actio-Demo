@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Actio.Api.Handlers;
+using Actio.Api.Repositories;
 using Actio.Common.Auth;
 using Actio.Common.Events;
 using Actio.Common.Mongo;
@@ -44,6 +45,8 @@ namespace Action.Api
             services.AddRabbitMq(Configuration);
             services.AddMongoDb(Configuration);
             services.AddJwt(Configuration);
+
+            services.AddSingleton<IActivityRepository, ActivityRepository>();
 
             services.AddSingleton<IEventHandler<ActivityCreated>, ActivityCreatedHandler>();
             services.AddSingleton<IEventHandler<UserAuthenticated>, UserAuthenticatedHandler>();
