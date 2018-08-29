@@ -13,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Serilog;
+using Serilog.Formatting.Json;
+using Serilog.Sinks.SumoLogic;
 
 namespace Action.Api
 {
@@ -21,6 +24,12 @@ namespace Action.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.SumoLogic(
+                    Configuration["SumoLogic:Url"],
+                    textFormatter: new JsonFormatter(renderMessage: true))
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -36,8 +45,11 @@ namespace Action.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+            IApplicationLifetime appLifetime)
         {
+            loggerFactory.AddSerilog();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -49,6 +61,8 @@ namespace Action.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
         }
     }
 }
