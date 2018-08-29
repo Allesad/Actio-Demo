@@ -42,7 +42,7 @@ namespace Actio.Services.Identity.Domain.Models
                     "User password cannot be empty");
             }
 
-            Salt = encrypter.GetSalt(password);
+            Salt = encrypter.GetSalt();
             Password = encrypter.GetHash(password, Salt);
         }
 

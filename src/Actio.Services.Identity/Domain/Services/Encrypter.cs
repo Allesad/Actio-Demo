@@ -8,7 +8,7 @@ namespace Actio.Services.Identity.Domain.Services
         private static readonly int SaltSize = 40;
         private static readonly int DeriveBytesIterationsCount = 10000;
 
-        public string GetSalt(string value)
+        public string GetSalt()
         {
             var random = new Random();
             var saltBytes = new byte[SaltSize];
