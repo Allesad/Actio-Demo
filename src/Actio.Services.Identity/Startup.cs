@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Actio.Common.Auth;
 using Actio.Common.Commands;
 using Actio.Common.Mongo;
 using Actio.Common.RabbitMq;
@@ -37,6 +38,7 @@ namespace Actio.Services.Identity
 
             services.AddRabbitMq(Configuration);
             services.AddMongoDb(Configuration);
+            services.AddJwt(Configuration);
             
             services.AddSingleton<ICommandHandler<CreateUser>, CreateUserHandler>();
             services.AddSingleton<IEncrypter, Encrypter>();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Actio.Api.Handlers;
+using Actio.Common.Auth;
 using Actio.Common.Events;
 using Actio.Common.RabbitMq;
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +41,7 @@ namespace Action.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddRabbitMq(Configuration);
+            services.AddJwt(Configuration);
 
             services.AddSingleton<IEventHandler<ActivityCreated>, ActivityCreatedHandler>();
         }
